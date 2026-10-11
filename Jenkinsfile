@@ -40,10 +40,26 @@ pipeline {
                 echo 'All application files are present.'
             }
         }
+
+        stage('Create Report Artifact') {
+            steps {
+                sh '''
+                    echo "JOB_NAME=$JOB_NAME" > report-3.txt
+                    echo "BUILD_NUMBER=$BUILD_NUMBER" >> report-3.txt
+                    echo "VARIANT=3" >> report-3.txt
+                    echo "DATETIME=$(date '+%Y-%m-%d %H:%M:%S')" >> report-3.txt
+                    echo "COMMIT=$(git rev-parse --short HEAD)" >> report-3.txt
+
+                    cat report-3.txt
+                '''
+            }
+        }
     }
 
     post {
         success {
+            archiveArtifacts artifacts: 'report-*.txt',
+                             fingerprint: true
             echo 'Pipeline completed successfully!'
         }
 
