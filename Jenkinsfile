@@ -28,7 +28,8 @@ pipeline {
                     echo "$GREETING, $STUDENT! Variant 3"
                     echo "Build number: $BUILD_NUMBER"
                     echo "Job name: $JOB_NAME"
-                '''
+        sh 'git --version'
+        sh 'echo "Jenkins environment checked"'                '''
             }
         }
 
